@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Gerenciador Educacional On-Line</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}" media="screen">
+  </head>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">G-E-O</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <body class="body">
+    <div class="container-lg">
+      <div class="row align-items-center">
+        <div class="col">
+        </div>
+        <div class="col">
+          <form action="" method="POST" style="padding: 100px;">
+            {{form.csrf_token}}
+            <h3 style="text-align: center;min-width: 300px;margin-bottom: 20px;">Gerenciador Educacional On-Line</h3>
+            <div class="md-3">
+              <label style="text-align: start;" for="exampleInputEmail1" class="form-label">Email</label>
+              {{form.email(class="form-control",placeholder="email")}}
+            </div>
+            <div class="md-3">
+              <label style="min-width: 300px; margin-top: 10px;text-align: start;" for="exampleInputPassword1" class="form-label">Senha</label>
+              {{form.senha(class="form-control")}}
+            </div>
+            <button style="min-width: 300px; margin-top: 20px;margin-bottom: 10px;" type="submit" class="btn btn-primary">Login</button>
+            <a style="min-width: 300px; margin-top: 5px;" class="link" href="{{url_for('cadastro')}}">Cadastrar-se</a>
+          </form>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+    </div>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
+  </body>
+</html>

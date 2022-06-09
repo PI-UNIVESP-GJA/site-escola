@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Gerenciador Educacional On-Line</title>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}" media="screen">
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">G-E-O</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('sistema')}}">Home</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+      </form>
+    </div>
+  </div>
+</nav>
+<body>
+  <form action="" method="POST">
+    {{form.csrf_token}}
+    <table style="margin: 50px;max-width: 900px;" class="table">
+      <thead>
+        <tr>
+          <th scope="col" style="max-width: 70px;">Nº</th>
+          <th scope="col" style="max-width: 300px;">Nome completo do aluno</th>
+          <th scope="col" style="max-width: 70px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr action="" method="POST">
+          {{form.csrf_token}}
+          <th scope="row" style="max-width: 10px;">{{form.numero(class="form-control")}}</th>
+          <td style="max-width: 150px;">{{form.nome(class="form-control")}}</td>
+          <td><button style="min-width: 140px;" type="submit" class="btn btn-primary">Pesquisar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <table style="margin: 50px;max-width: 900px;" class="table">
+    <thead>
+      <tr>
+        <th scope="col" style="max-width: 70px;">Nº</th>
+        <th scope="col" style="max-width: 300px;">Nome completo do aluno</th>
+        <th scope="col" style="max-width: 70px;">Classe</th>
+        <th scope="col" style="max-width: 100px;">Matéria</th>
+        <th scope="col" style="max-width: 70px;">Nota</th>
+        <th scope="col" style="max-width: 70px;">Aulas</th>
+        <th scope="col" style="max-width: 70px;">Faltas</th>
+        <th scope="col" style="max-width: 70px;"></th>
+        <th scope="col" style="max-width: 70px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aluno in alunos %}
+        <tr>
+          <th scope="row" style="max-width: 70px;">{{ aluno.numero }}</th>
+          <td style="max-width: 300px;">{{ aluno.nome }}</td>
+          <td style="max-width: 70px;">{{ aluno.classe }}</td>
+          <td style="max-width: 100px;">{{ aluno.materia }}</td>
+          <td style="max-width: 70px;">{{ aluno.nota }}</td>
+          <td style="max-width: 70px;">{{ aluno.qtd_aulas }}</td>
+          <td style="max-width: 70px;">{{ aluno.qtd_faltas }}</td>
+          <td><a class="btn btn-outline-warning" href="{{url_for('update', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Editar</a></td>
+          <td><a class="btn btn-outline-danger" href="{{url_for('delete', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Deletar</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Gerenciador Educacional On-Line</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}"
+        media="screen">
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">G-E-O</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{url_for('sistema')}}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<body class="body">
+    <form action="" method="POST">
+        {{form.csrf_token}}
+        <table style="margin: 50px;max-width: 1200px;" class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="max-width: 10px;">Número</th>
+                    <th scope="col" style="max-width: 150px;">Nome completo</th>
+                    <th scope="col" style="max-width: 20px;">Classe</th>
+                    <th scope="col" style="max-width: 30px;">Matéria</th>
+                    <th scope="col" style="max-width: 10px;">Nota</th>
+                    <th scope="col" style="max-width: 10px;">Aulas</th>
+                    <th scope="col" style="max-width: 10px;">Faltas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr action="" method="POST">
+                    {{form.csrf_token}}
+                    <th scope="row">{{form.numero(class="form-control")}}</th>
+                    <td>{{form.nome(class="form-control")}}</td>
+                    <td>{{form.classe(class="form-control")}}</td>
+                    <td>{{form.materia(class="form-control")}}</td>
+                    <td>{{form.nota(class="form-control")}}</td>
+                    <td>{{form.aulas(class="form-control")}}</td>
+                    <td>{{form.faltas(class="form-control")}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin: 50px;max-width: 1200px;">
+            <button style="min-width: 300px; margin-top: 20px;" type="submit"
+                class="btn btn-primary">Cadastrar</button>
+        </div>
+    </form>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
+</body>
+
+</html>

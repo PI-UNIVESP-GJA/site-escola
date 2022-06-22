@@ -1,4 +1,4 @@
-# Gerenciador Educacional On-Line
+# Gerenciador Educacional On-Line 2.0 (Baseado na versão anterior do grupo que iniciou o projeto no ano passado, faremos atualizações de funcionalidades)
 
 ## Sistema para auxílio de professores no plano de aula
 

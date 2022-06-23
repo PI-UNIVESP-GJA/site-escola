@@ -1,12 +1,11 @@
-# Gerenciador Educacional On-Line 2.0 (Baseado na versão anterior do grupo que iniciou o projeto no ano passado, faremos atualizações de funcionalidades)
+# Gerenciador Educacional On-Line 2.0
 
-## Sistema para auxílio de professores no plano de aula
 
-### Com o objetivo de propiciar uma melhor gestão das atividades administrativas dos professores de uma escola pública do Guarujá, este estudo realizou o desenvolvimento de um gerenciador educacional online. Foram pesquisadas as principais necessidades dos professores em seu cotidiano escolar e como uma ferramenta digital poderia ajudá-los. Foram encontradas as seguintes dificuldades, relatadas pelos entrevistados: ferramenta para gestão de notas e presenças, comunicação com pais e alunos e cálculo automático de médias. Com base nisso foi desenvolvido um software com framework web e utilizando banco de dados que atendeu às necessidades relatadas e possibilitou um melhor aproveitamento do tempo de aula.  
+## Sistema para gerenciamento dos coordenadores
+      
+###      Este site foi desenvolvido com o objetivo de auxiliar os administradores da escola a armazenar e controlar informações a cerca das salas de aulas, alunos, frequências e notas.
+###      Essa é a segunda versão do projeto, aumentando o escopo da versão anterior, que focou nos professores como público alvo.
+###      As ferramentas e recursos aqui desponibilizadas foram escolhidas a partir de pesquisa de campo com coordenadores e secretários de uma escola municipal do Guarujá-SP.
+###      Foi utilizada linguagem Python, framework Flask, framework Bootstrap em Javascript e CSS, banco de dados com SQLite. 
 
-## Contribuições:
-
-### - Para contribuir com o projeto, por favor, crie uma nova branch a partir da "main", utilizando o comando: git checkout -b "nome da branch"
-### - Após realizar as alterações necessárias, faça um MERGE REQUEST de sua branch com a "main"
-### - O MERGE REQUEST será revisado e aprovado se estiver tudo OK
 

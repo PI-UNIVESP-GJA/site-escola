@@ -55,6 +55,12 @@ def consulta(info):
                     return render_template('consulta.html', alunos = alunosNome, form = form2)
     return render_template('consulta.html', form = form)
 
+@app.route('/coordenacao/<info>')
+@app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
+def coordenacao(info):
+    alunos = Alunos.query
+    return render_template('coordenacao.html', alunos = alunos)
+
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
 def delete(aluno_id):
     if current_user.is_anonymous == True:

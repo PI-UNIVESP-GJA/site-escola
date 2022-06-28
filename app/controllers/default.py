@@ -76,14 +76,16 @@ def delete2(professor_id):
         db.session.delete(professor_d)
         db.session.commit()
         return redirect(url_for("coordenacao", professor_id = professor_id))
-###########################################################################################
+
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
     alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.numero))
-    return render_template('coordenacao.html', alunos = alunos)
+    return render_template('grafico.html', alunos = alunos)
 
 
 ###########################################################################################
+
+
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])
 def update(aluno_id, info):

@@ -80,11 +80,20 @@ def delete2(professor_id):
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
     alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.numero))
-    return render_template('grafico.html', alunos = alunos)
-
-
-###########################################################################################
-
+    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:["
+    for aluno in alunos:
+        url_grafico = url_grafico + "'" + aluno.nome + "',"
+    url_grafico = url_grafico.rstrip(url_grafico[-1])    
+    url_grafico = url_grafico + "],datasets:[{label:'Notas',data:["
+    for aluno in alunos:
+        url_grafico = url_grafico + aluno.nota + ","
+    url_grafico = url_grafico.rstrip(url_grafico[-1])    
+    url_grafico = url_grafico + "],fill:false,borderColor:'green'},{label:'Faltas',data:["
+    for aluno in alunos:
+        url_grafico = url_grafico + aluno.qtd_faltas + ","
+    url_grafico = url_grafico.rstrip(url_grafico[-1])
+    url_grafico = url_grafico + "],fill:false,borderColor:'blue'}]}}"
+    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)
 
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])

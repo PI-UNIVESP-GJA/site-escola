@@ -56,17 +56,10 @@
             </tr>
           {% endfor %}
         </tbody>
-      </table>
-      <a class="btn btn-primary" href="javascript:mostrar()" role="button" style="margin: 70px; max-width: 70px;">Gráfico</a>  
-      <img id="image" src="" alt="Grafico" style="display:none"/>  
+      </table>  
+     <img id="image" src="{{url_grafico}}" alt="Grafico"/>  
       <a class="btn btn-danger" href="{{url_for('coordenacao')}}" role="button" style="margin: 70px; max-width: 70px;">Voltar</a> 
-    <script>
-function mostrar(){
-    let imagem = document.getElementById("image");
-    imagem.style.display="block";
-    imagem.src="https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}";
-                  }
-    </script>    
+   
 </body>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
 </html>

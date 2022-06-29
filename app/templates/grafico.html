@@ -55,8 +55,8 @@
               <td style="max-width: 70px;">{{ aluno.nota }}</td>
               <td style="max-width: 70px;">{{ aluno.qtd_aulas }}</td>
               <td style="max-width: 70px;">{{ aluno.qtd_faltas }}</td>
-              <td><a class="btn btn-outline-warning" href="{{url_for('update', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Editar</a></td>
-              <td><a class="btn btn-outline-danger" href="{{url_for('delete', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Deletar</a></td>
+              <td><a class="btn btn-warning" href="{{url_for('update', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Editar</a></td>
+              <td><a class="btn btn-danger" href="{{url_for('delete', aluno_id = aluno['id'])}}" role="button" style="max-width: 70px;">Deletar</a></td>
             </tr>
           {% endfor %}
         </tbody>

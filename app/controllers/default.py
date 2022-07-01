@@ -34,7 +34,6 @@ def sistema(info):
     else:
         alunos = Alunos.query.filter_by(professor_id=current_user.id).order_by(asc(Alunos.numero))
         return render_template('sistema.html', alunos = alunos)
-    return render_template('sistema.html')
 
 @app.route('/consulta/<info>')
 @app.route('/consulta/', defaults={'info':None}, methods=["GET", "POST"])
@@ -55,15 +54,46 @@ def consulta(info):
                     return render_template('consulta.html', alunos = alunosNome, form = form2)
     return render_template('consulta.html', form = form)
 
+@app.route('/coordenacao/<info>')
+@app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
+def coordenacao(info):
+    professores = User.query.order_by(asc(User.id))
+    return render_template('coordenacao.html', professores = professores)
+
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
 def delete(aluno_id):
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+       return render_template('index.html')
     else:
         aluno_d = Alunos.query.filter_by(id=aluno_id).first()
         db.session.delete(aluno_d)
         db.session.commit()
         return redirect(url_for("sistema", aluno_id = aluno_id))
+
+@app.route('/delete2/<int:professor_id>', methods=["GET", "POST"])
+def delete2(professor_id):
+        professor_d = User.query.filter_by(id=professor_id).first()
+        db.session.delete(professor_d)
+        db.session.commit()
+        return redirect(url_for("coordenacao", professor_id = professor_id))
+
+@app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
+def grafico(professor_id):
+    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.numero))
+    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:["
+    for aluno in alunos:
+        url_grafico = url_grafico + "'" + aluno.nome + "',"
+    url_grafico = url_grafico.rstrip(url_grafico[-1])    
+    url_grafico = url_grafico + "],datasets:[{label:'Notas',data:["
+    for aluno in alunos:
+        url_grafico = url_grafico + aluno.nota + ","
+    url_grafico = url_grafico.rstrip(url_grafico[-1])    
+    url_grafico = url_grafico + "],fill:false,borderColor:'green'},{label:'Faltas',data:["
+    for aluno in alunos:
+        url_grafico = url_grafico + aluno.qtd_faltas + ","
+    url_grafico = url_grafico.rstrip(url_grafico[-1])
+    url_grafico = url_grafico + "],fill:false,borderColor:'blue'}]}}"
+    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)
 
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])

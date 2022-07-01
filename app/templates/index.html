@@ -3,19 +3,24 @@
 
 <head>
   <title>Gerenciador Educacional On-Line 2.0</title>
-  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}" media="screen">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">G-E-O</a>
+    <a class="navbar-brand">G-E-O-2</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login Professor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('coordenacao')}}">Coordenador</a>
         </li>
       </ul>
     </div>
@@ -23,18 +28,19 @@
 </nav>
 
 <body class="body">
-  <div class="container-lg" style="text-align: start;">
-    <form style="padding: 100px;">
-      <h2 style="padding: 20px;">Gerenciador Educacional On-Line</h2> 
+  <div class="container-fluid" style="text-align: start;">
+    <form>
+      <h2>Gerenciador Educacional On-Line 2.0</h2> 
       
-      <h3 style="padding: 20px;">Sistema para auxílio de professores no plano de aula</h3>
+      <h3>Sistema para gerenciamento para coordenadores</h3>
       
-      <h4 style="padding: 20px;">Com o objetivo de propiciar uma melhor gestão das atividades administrativas dos professores de uma escola pública do
-      Guarujá, este estudo realizou o desenvolvimento de um gerenciador educacional online. Foram pesquisadas as principais
-      necessidades dos professores em seu cotidiano escolar e como uma ferramenta digital poderia ajudá-los. Foram encontradas
-      as seguintes dificuldades, relatadas pelos entrevistados: ferramenta para gestão de notas e presenças, comunicação com
-      pais e alunos e cálculo automático de médias. Com base nisso foi desenvolvido um software com o framework web flask, com a linguagem python, e utilizando
-      banco de dados SQLite, que atende as necessidades relatadas e possibilita um melhor aproveitamento do tempo de aula.</h4>
+      <h4>Este site foi desenvolvido com o objetivo de auxiliar os administradores da escola a armazenar
+       e controlar informações a cerca das salas de aulas, alunos, frequências e notas.
+      <p>Essa é a segunda versão do projeto, aumentando o escopo da versão anterior, que focou nos professores como público alvo.</p>
+      <p>As ferramentas e recursos aqui desponibilizadas foram escolhidas a partir de pesquisa de campo com coordenadores e secretários 
+      de uma escola municipal do Guarujá-SP.</p>
+      <p>Foi utilizada linguagem Python, framework Flask, framework Bootstrap em Javascript e CSS, banco de dados com SQLite, 
+        API QuickChart para construir os gráficos, hospedado na nuvem e publicado via Heroku, controle de versão registrado via Github.</p></h4>
     </form>
   </div>
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">

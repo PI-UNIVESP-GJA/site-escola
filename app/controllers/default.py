@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 from app import app, db, login_manager
 from app.models.tables import User, Alunos
@@ -21,11 +21,36 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.senha == form.senha.data:
             login_user(user)
-            flash("logged in")
             return redirect(url_for("sistema"))
         else:
             error = "Credenciais incorretas!"
     return render_template('login.html', form = form, error=error)   
+
+@app.route('/login2coord/', methods=["GET", "POST"])
+def login2coord():
+    error = None
+    form = FormLogin()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.senha == form.senha.data:
+            login_user(user)
+            return redirect(url_for("coordenacao"))
+        else:
+            error = "Credenciais incorretas!"
+    return render_template('login2coord.html', form = form, error=error) 
+
+@app.route('/login3aluno/', methods=["GET", "POST"])
+def login3aluno():
+    error = None
+    form = FormLogin()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.senha == form.senha.data:
+            login_user(user)
+            return redirect(url_for("sistema"))
+        else:
+            error = "Credenciais incorretas!"
+    return render_template('login3aluno.html', form = form, error=error)     
     
 @app.route('/sistema/<info>')
 @app.route('/sistema/', defaults={'info':None}, methods=["GET", "POST"])
@@ -131,6 +156,7 @@ def update(aluno_id, info):
 @app.route('/cadastro/', defaults={'info':None}, methods=["GET", "POST"])
 def cadastro(info):
     form = FormCadastro()
+    error = None
     if form.validate_on_submit():
         if form.senha.data == form.confirmar_senha.data:
             i = User(form.nome.data, form.email.data, form.senha.data)
@@ -138,8 +164,8 @@ def cadastro(info):
             db.session.commit()
             return redirect(url_for("login", form = form))
         else:
-            flash("Insira a mesma senha nos dois campos")
-    return render_template('cadastro.html', form = form)
+            error = "Insira a mesma senha nos dois campos"
+    return render_template('cadastro.html', form = form, error=error)
 
 
 @app.route('/cadastro_aluno/<info>')
@@ -166,5 +192,5 @@ def cadastro_aluno(info):
 @app.route('/logout/')
 def logout():
     logout_user()
-    flash("logout")
-    return render_template('index.html')
+    error = "Sessão encerrada com sucesso"
+    return render_template('index.html', error=error)

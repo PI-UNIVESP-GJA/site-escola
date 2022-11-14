@@ -17,10 +17,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login Professor</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Portal Professor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('coordenacao')}}">Coordenador</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('login2coord')}}">Portal Coordenador</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('login3aluno')}}">Portal Aluno</a>
         </li>
       </ul>
     </div>
@@ -30,6 +33,9 @@
 <body class="body">
   <div class="container-fluid" style="text-align: start;">
     <form>
+      <h1 style="color:red;">{% if error %}
+        <p class=error> {{ error }}
+        {% endif %}</h1>
       <h2>Gerenciador Educacional On-Line 2.0</h2> 
       
       <h3>Sistema para gerenciamento para coordenadores</h3>

@@ -28,11 +28,9 @@
     <div class="container-lg">
         <div class="row align-items-center">
             <div class="col">
-            </div>
-            <div class="col">
-                <form action="" method="POST" style="padding: 100px;">
+                <form action="" method="POST" style="padding: 50px;">
                     {{form.csrf_token}}
-                    <h3 style="text-align: center;min-width: 300px;margin-bottom: 20px;">Cadastro
+                    <h3 style="text-align: center;min-width: 100px;margin-bottom: 20px;">Cadastro
                     </h3>
                     <div class="md-3">
                         {{form.nome(class="form-control",placeholder="nome")}}
@@ -46,11 +44,12 @@
                     <div class="md-3">
                         {{form.confirmar_senha(class="form-control",placeholder="confirmar senha")}}
                     </div>
-                    <button style="min-width: 300px; margin-top: 20px;margin-bottom: 10px;" type="submit"
+                    {% if error %}
+                    <p class=error><strong>Erro:</strong> {{ error }}
+                    {% endif %}
+                    <button style="min-width: 100px; margin-top: 20px;margin-bottom: 10px;" type="submit"
                         class="btn btn-primary">Cadastrar</button>
                 </form>
-            </div>
-            <div class="col">
             </div>
         </div>
     </div>

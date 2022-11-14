@@ -15,6 +15,7 @@ def index():
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
+    error = None
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -23,8 +24,8 @@ def login():
             flash("logged in")
             return redirect(url_for("sistema"))
         else:
-            flash("Invalid login")
-    return render_template('login.html', form = form)   
+            error = "Credenciais incorretas!"
+    return render_template('login.html', form = form, error=error)   
     
 @app.route('/sistema/<info>')
 @app.route('/sistema/', defaults={'info':None}, methods=["GET", "POST"])

@@ -39,10 +39,10 @@
               {{form.senha(class="form-control")}}
             </div>
             {% if error %}
-             <p class=error><strong>Erro:</strong> {{ error }}
+             <p class=error style="color:red;"><strong>Erro:</strong> {{ error }}</p>
              {% endif %}
             <button style="min-width: 100px; margin-top: 20px;margin-bottom: 10px;" type="submit" class="btn btn-primary">Login</button>
-            <a style="min-width: 100px; margin-top: 5px;" class="link" href="{{url_for('cadastro')}}">Cadastrar-se</a>
+            <a style="min-width: 100px; margin-top: 5px;" class="link" href="{{url_for('cadastro', tipo=2)}}">Cadastrar-se</a>
           </form>
         </div>
       </div>

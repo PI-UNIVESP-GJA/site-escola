@@ -19,11 +19,14 @@ def login():
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.senha == form.senha.data:
-            login_user(user)
-            return redirect(url_for("sistema"))
+        if user.tipo != 1:
+            error = "Usuário não é professor"
         else:
-            error = "Credenciais incorretas!"
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("sistema"))
+            else:
+                error = "Credenciais incorretas!"
     return render_template('login.html', form = form, error=error)   
 
 @app.route('/login2coord/', methods=["GET", "POST"])
@@ -32,11 +35,14 @@ def login2coord():
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.senha == form.senha.data:
-            login_user(user)
-            return redirect(url_for("coordenacao"))
+        if user.tipo != 2:
+            error = "Usuário não é coordenador"
         else:
-            error = "Credenciais incorretas!"
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("coordenacao"))
+            else:
+                error = "Credenciais incorretas!"
     return render_template('login2coord.html', form = form, error=error) 
 
 @app.route('/login3aluno/', methods=["GET", "POST"])
@@ -45,11 +51,14 @@ def login3aluno():
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.senha == form.senha.data:
-            login_user(user)
-            return redirect(url_for("sistema"))
-        else:
-            error = "Credenciais incorretas!"
+        if user.tipo != 3:
+            error = "Usuário não é aluno"
+        else:    
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("sistema"))
+            else:
+                error = "Credenciais incorretas!"
     return render_template('login3aluno.html', form = form, error=error)     
     
 @app.route('/sistema/<info>')
@@ -83,7 +92,7 @@ def consulta(info):
 @app.route('/coordenacao/<info>')
 @app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
 def coordenacao(info):
-    professores = User.query.order_by(asc(User.id))
+    professores = User.query.filter_by(tipo=1).order_by(asc(User.id))
     return render_template('coordenacao.html', professores = professores)
 
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
@@ -152,20 +161,20 @@ def update(aluno_id, info):
             return redirect(url_for("sistema", form = form2))
         return render_template('cadastro_aluno.html', form = form)  
 
-@app.route('/cadastro/<info>')
-@app.route('/cadastro/', defaults={'info':None}, methods=["GET", "POST"])
-def cadastro(info):
+
+@app.route('/cadastro/<int:tipo>', methods=["GET", "POST"])
+def cadastro(tipo):
     form = FormCadastro()
     error = None
     if form.validate_on_submit():
         if form.senha.data == form.confirmar_senha.data:
-            i = User(form.nome.data, form.email.data, form.senha.data)
+            i = User(form.nome.data, form.email.data, form.senha.data, tipo)
             db.session.add(i)
             db.session.commit()
-            return redirect(url_for("login", form = form))
+            return redirect(url_for("index"))
         else:
             error = "Insira a mesma senha nos dois campos"
-    return render_template('cadastro.html', form = form, error=error)
+    return render_template('cadastro.html', form = form, error=error, tipo=tipo)
 
 
 @app.route('/cadastro_aluno/<info>')

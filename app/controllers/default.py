@@ -56,7 +56,7 @@ def login3aluno():
         else:    
             if user and user.senha == form.senha.data:
                 login_user(user)
-                return redirect(url_for("sistema"))
+                return redirect(url_for("sistema_aluno"))
             else:
                 error = "Credenciais incorretas!"
     return render_template('login3aluno.html', form = form, error=error)     
@@ -69,6 +69,15 @@ def sistema(info):
     else:
         alunos = Alunos.query.filter_by(professor_id=current_user.id).order_by(asc(Alunos.numero))
         return render_template('sistema.html', alunos = alunos)
+
+@app.route('/sistema_aluno/<info>')
+@app.route('/sistema_aluno/', defaults={'info':None}, methods=["GET", "POST"])
+def sistema_aluno(info): 
+    if current_user.is_anonymous == True:
+        return render_template('index.html')
+    else:
+        alunos = Alunos.query.filter_by(nome=current_user.nome)
+        return render_template('sistema_aluno.html', alunos = alunos)
 
 @app.route('/consulta/<info>')
 @app.route('/consulta/', defaults={'info':None}, methods=["GET", "POST"])

@@ -41,7 +41,7 @@ class Alunos(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     numero = db.Column(db.Integer)
-    nome = db.Column(db.String, unique=True)
+    nome = db.Column(db.String)
     classe = db.Column(db.String)
     professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'))
     professor = db.relationship('User', foreign_keys=professor_id)

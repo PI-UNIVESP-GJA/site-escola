@@ -76,7 +76,7 @@ def sistema_aluno(info):
     if current_user.is_anonymous == True:
         return render_template('index.html')
     else:
-        alunos = Alunos.query.filter_by(nome=current_user.nome)
+        alunos = Alunos.query.filter_by(nome=current_user.nome).order_by(asc(Alunos.bimestre))
         return render_template('sistema_aluno.html', alunos = alunos)
 
 @app.route('/consulta/<info>')

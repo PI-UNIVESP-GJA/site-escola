@@ -155,6 +155,7 @@ def update(aluno_id, info):
         form.nota.data = aluno_e.nota 
         form.aulas.data = aluno_e.qtd_aulas 
         form.faltas.data = aluno_e.qtd_faltas 
+        form.bimestre.data = aluno_e.bimestre
         
         if form.validate_on_submit():
             form2 = FormAtualizaAluno()
@@ -165,6 +166,7 @@ def update(aluno_id, info):
             aluno_e.nota = str(form2.nota.data ) 
             aluno_e.qtd_aulas = str(form2.aulas.data)
             aluno_e.qtd_faltas = str(form2.faltas.data)
+            aluno_e.bimestre = str(form2.bimestre.data)
             db.session.add(aluno_e)
             db.session.commit()
             return redirect(url_for("sistema", form = form2))
@@ -194,7 +196,7 @@ def cadastro_aluno(info):
     else:
         form = FormCadastroAluno()
         if form.validate_on_submit():
-            i = Alunos(form.numero.data, form.nome.data, form.classe.data, current_user.id , form.materia.data, form.nota.data, form.aulas.data, form.faltas.data)
+            i = Alunos(form.numero.data, form.nome.data, form.classe.data, current_user.id , form.materia.data, form.nota.data, form.aulas.data, form.faltas.data, form.bimestre.data)
             db.session.add(i)
             db.session.commit()
             form.numero.data = "" 
@@ -203,7 +205,8 @@ def cadastro_aluno(info):
             form.materia.data = ""  
             form.nota.data = ""  
             form.aulas.data = ""  
-            form.faltas.data = ""  
+            form.faltas.data = ""
+            form.bimestre.data = ""  
         return render_template('cadastro_aluno.html', form = form)
 
 

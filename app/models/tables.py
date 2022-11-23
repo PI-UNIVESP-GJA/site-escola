@@ -49,10 +49,11 @@ class Alunos(db.Model):
     nota = db.Column(db.String)
     qtd_aulas = db.Column(db.String)
     qtd_faltas = db.Column(db.String)
+    bimestre = db.Column(db.Integer)
 
 
 
-    def __init__(self, numero, nome, classe, professor_id, materia, nota, qtd_aulas, qtd_faltas):
+    def __init__(self, numero, nome, classe, professor_id, materia, nota, qtd_aulas, qtd_faltas, bimestre):
         self.numero = numero
         self.nome = nome
         self.classe = classe
@@ -61,6 +62,7 @@ class Alunos(db.Model):
         self.nota = nota
         self.qtd_aulas = qtd_aulas
         self.qtd_faltas = qtd_faltas
+        self.bimestre = bimestre
 
     def __repr__(self):
         return "<Aluno %r>" % self.nome

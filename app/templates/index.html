@@ -9,7 +9,7 @@
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand">G-E-O-2</a>
+    <a class="navbar-brand" href="{{url_for('index')}}">G-E-O-3</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,10 +17,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login Professor</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('login')}}" style="background-color: #e3f2fd;">Portal Professor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{url_for('coordenacao')}}">Coordenador</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('login2coord')}}" style="background-color: #D9F9D7;">Portal Coordenador</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('login3aluno')}}" style="background-color: #F6D7F9;">Portal Aluno</a>
         </li>
       </ul>
     </div>
@@ -30,13 +33,16 @@
 <body class="body">
   <div class="container-fluid" style="text-align: start;">
     <form>
-      <h2>Gerenciador Educacional On-Line 2.0</h2> 
+      <h1 style="color:red;">{% if error %}
+        <p class=error> {{ error }}
+        {% endif %}</h1>
+      <h2>Gerenciador Educacional On-Line 3.0</h2> 
       
-      <h3>Sistema para gerenciamento para coordenadores</h3>
+      <h3>Sistema para gerenciamento de notas e frequência.</h3>
       
-      <h4>Este site foi desenvolvido com o objetivo de auxiliar os administradores da escola a armazenar
-       e controlar informações a cerca das salas de aulas, alunos, frequências e notas.
-      <p>Essa é a segunda versão do projeto, aumentando o escopo da versão anterior, que focou nos professores como público alvo.</p>
+      <h4>Este site foi desenvolvido com o objetivo de auxiliar os professores, administradores e alunos da escola a armazenar,
+       controlar e visualizar informações a cerca das salas de aulas, alunos, frequências e notas.
+      <p>Essa é a terceira versão do projeto, aumentando o escopo das versões anteriores, incluindo alunos como público alvo.</p>
       <p>As ferramentas e recursos aqui desponibilizadas foram escolhidas a partir de pesquisa de campo com coordenadores e secretários 
       de uma escola municipal do Guarujá-SP.</p>
       <p>Foi utilizada linguagem Python, framework Flask, framework Bootstrap em Javascript e CSS, banco de dados com SQLite, 

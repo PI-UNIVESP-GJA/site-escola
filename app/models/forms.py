@@ -22,6 +22,7 @@ class FormCadastroAluno(FlaskForm):
     nota = StringField('nota', validators=[DataRequired()])
     aulas = StringField('aulas', validators=[DataRequired()])
     faltas = StringField('faltas', validators=[DataRequired()])
+    bimestre = StringField('bimestre', validators=[DataRequired()])
 
 class FormAtualizaAluno(FlaskForm):
     numero = StringField('numero')
@@ -31,6 +32,7 @@ class FormAtualizaAluno(FlaskForm):
     nota = StringField('nota')
     aulas = StringField('aulas')
     faltas = StringField('faltas')
+    bimestre = StringField('bimestre')
 
 class FormConsultaAluno(FlaskForm):
     numero = StringField('numero')
@@ -40,3 +42,4 @@ class FormConsultaAluno(FlaskForm):
     nota = StringField('nota')
     aulas = StringField('aulas')
     faltas = StringField('faltas')
+    bimestre = StringField('bimestre')

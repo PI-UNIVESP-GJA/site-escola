@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #F6D7F9;">
     <div class="container-fluid">
       <a class="navbar-brand">G-E-O-3</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -29,7 +29,7 @@
           <form action="" method="POST" style="padding: 100px;">
             {{form.csrf_token}}
             <h3 style="text-align: center;min-width: 100px;margin-bottom: 20px;">Gerenciador Educacional On-Line 2.0
-            <p><strong>PORTAL DO PROFESSOR</strong></p></h3>
+              <p><strong>PORTAL DO ALUNO</strong></p></h3>
             <div class="md-3">
               <label style="text-align: start;" for="exampleInputEmail1" class="form-label">Email</label>
               {{form.email(class="form-control",placeholder="email")}}
@@ -42,7 +42,7 @@
              <p class=error style="color:red;"><strong>Erro:</strong> {{ error }}</p>
              {% endif %}
             <button style="min-width: 100px; margin-top: 20px;margin-bottom: 10px;" type="submit" class="btn btn-primary">Login</button>
-            <a style="min-width: 100px; margin-top: 5px;" class="link" href="{{url_for('cadastro', tipo=1)}}">Cadastrar-se</a>
+            <a style="min-width: 100px; margin-top: 5px;" class="link" href="{{url_for('cadastro', tipo=3)}}">Cadastrar-se</a>
           </form>
         </div>
       </div>

@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 from app import app, db, login_manager
 from app.models.tables import User, Alunos
@@ -19,13 +19,47 @@ def login():
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.senha == form.senha.data:
-            login_user(user)
-            flash("logged in")
-            return redirect(url_for("sistema"))
+        if user.tipo != 1:
+            error = "Usuário não é professor"
         else:
-            error = "Credenciais incorretas!"
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("sistema"))
+            else:
+                error = "Credenciais incorretas!"
     return render_template('login.html', form = form, error=error)   
+
+@app.route('/login2coord/', methods=["GET", "POST"])
+def login2coord():
+    error = None
+    form = FormLogin()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user.tipo != 2:
+            error = "Usuário não é coordenador"
+        else:
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("coordenacao"))
+            else:
+                error = "Credenciais incorretas!"
+    return render_template('login2coord.html', form = form, error=error) 
+
+@app.route('/login3aluno/', methods=["GET", "POST"])
+def login3aluno():
+    error = None
+    form = FormLogin()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user.tipo != 3:
+            error = "Usuário não é aluno"
+        else:    
+            if user and user.senha == form.senha.data:
+                login_user(user)
+                return redirect(url_for("sistema_aluno"))
+            else:
+                error = "Credenciais incorretas!"
+    return render_template('login3aluno.html', form = form, error=error)     
     
 @app.route('/sistema/<info>')
 @app.route('/sistema/', defaults={'info':None}, methods=["GET", "POST"])
@@ -35,6 +69,15 @@ def sistema(info):
     else:
         alunos = Alunos.query.filter_by(professor_id=current_user.id).order_by(asc(Alunos.numero))
         return render_template('sistema.html', alunos = alunos)
+
+@app.route('/sistema_aluno/<info>')
+@app.route('/sistema_aluno/', defaults={'info':None}, methods=["GET", "POST"])
+def sistema_aluno(info): 
+    if current_user.is_anonymous == True:
+        return render_template('index.html')
+    else:
+        alunos = Alunos.query.filter_by(nome=current_user.nome).order_by(asc(Alunos.bimestre))
+        return render_template('sistema_aluno.html', alunos = alunos)
 
 @app.route('/consulta/<info>')
 @app.route('/consulta/', defaults={'info':None}, methods=["GET", "POST"])
@@ -58,7 +101,7 @@ def consulta(info):
 @app.route('/coordenacao/<info>')
 @app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
 def coordenacao(info):
-    professores = User.query.order_by(asc(User.id))
+    professores = User.query.filter_by(tipo=1).order_by(asc(User.id))
     return render_template('coordenacao.html', professores = professores)
 
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
@@ -80,21 +123,30 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.numero))
-    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:["
+    error = None
+    nomes=[]
+    notas=[]
+    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1 Bim','2 Bim','3 Bim','4 Bim'],datasets:[{fill:false,label:'"
+    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
     for aluno in alunos:
-        url_grafico = url_grafico + "'" + aluno.nome + "',"
-    url_grafico = url_grafico.rstrip(url_grafico[-1])    
-    url_grafico = url_grafico + "],datasets:[{label:'Notas',data:["
-    for aluno in alunos:
-        url_grafico = url_grafico + aluno.nota + ","
-    url_grafico = url_grafico.rstrip(url_grafico[-1])    
-    url_grafico = url_grafico + "],fill:false,borderColor:'green'},{label:'Faltas',data:["
-    for aluno in alunos:
-        url_grafico = url_grafico + aluno.qtd_faltas + ","
-    url_grafico = url_grafico.rstrip(url_grafico[-1])
-    url_grafico = url_grafico + "],fill:false,borderColor:'blue'}]}}"
-    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)
+        nomes.append(aluno.nome)
+        notas.append(aluno.nota)
+    if len(nomes) == 0:
+        error = "Não há alunos cadastrados para esse professor"
+    else:    
+        url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
+        i=1
+        while i<(len(nomes)):
+            if(nomes[i]==nomes[i-1]):
+                url_grafico = url_grafico + notas[i] + ","
+                i=i+1
+            else:
+                url_grafico = url_grafico.rstrip(url_grafico[-1])
+                url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
+                i=i+1
+        url_grafico = url_grafico.rstrip(url_grafico[-1])
+        url_grafico = url_grafico + "],},],},}"
+    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico, error=error)
 
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])
@@ -112,6 +164,7 @@ def update(aluno_id, info):
         form.nota.data = aluno_e.nota 
         form.aulas.data = aluno_e.qtd_aulas 
         form.faltas.data = aluno_e.qtd_faltas 
+        form.bimestre.data = aluno_e.bimestre
         
         if form.validate_on_submit():
             form2 = FormAtualizaAluno()
@@ -122,24 +175,26 @@ def update(aluno_id, info):
             aluno_e.nota = str(form2.nota.data ) 
             aluno_e.qtd_aulas = str(form2.aulas.data)
             aluno_e.qtd_faltas = str(form2.faltas.data)
+            aluno_e.bimestre = str(form2.bimestre.data)
             db.session.add(aluno_e)
             db.session.commit()
             return redirect(url_for("sistema", form = form2))
         return render_template('cadastro_aluno.html', form = form)  
 
-@app.route('/cadastro/<info>')
-@app.route('/cadastro/', defaults={'info':None}, methods=["GET", "POST"])
-def cadastro(info):
+
+@app.route('/cadastro/<int:tipo>', methods=["GET", "POST"])
+def cadastro(tipo):
     form = FormCadastro()
+    error = None
     if form.validate_on_submit():
         if form.senha.data == form.confirmar_senha.data:
-            i = User(form.nome.data, form.email.data, form.senha.data)
+            i = User(form.nome.data, form.email.data, form.senha.data, tipo)
             db.session.add(i)
             db.session.commit()
-            return redirect(url_for("login", form = form))
+            return redirect(url_for("index"))
         else:
-            flash("Insira a mesma senha nos dois campos")
-    return render_template('cadastro.html', form = form)
+            error = "Insira a mesma senha nos dois campos"
+    return render_template('cadastro.html', form = form, error=error, tipo=tipo)
 
 
 @app.route('/cadastro_aluno/<info>')
@@ -150,7 +205,7 @@ def cadastro_aluno(info):
     else:
         form = FormCadastroAluno()
         if form.validate_on_submit():
-            i = Alunos(form.numero.data, form.nome.data, form.classe.data, current_user.id , form.materia.data, form.nota.data, form.aulas.data, form.faltas.data)
+            i = Alunos(form.numero.data, form.nome.data, form.classe.data, current_user.id , form.materia.data, form.nota.data, form.aulas.data, form.faltas.data, form.bimestre.data)
             db.session.add(i)
             db.session.commit()
             form.numero.data = "" 
@@ -159,12 +214,13 @@ def cadastro_aluno(info):
             form.materia.data = ""  
             form.nota.data = ""  
             form.aulas.data = ""  
-            form.faltas.data = ""  
+            form.faltas.data = ""
+            form.bimestre.data = ""  
         return render_template('cadastro_aluno.html', form = form)
 
 
 @app.route('/logout/')
 def logout():
     logout_user()
-    flash("logout")
-    return render_template('index.html')
+    error = "Sessão encerrada com sucesso"
+    return render_template('index.html', error=error)

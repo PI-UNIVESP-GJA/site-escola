@@ -8,9 +8,9 @@
   <script src="extensions/resizable/bootstrap-table-resizable.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #D9F9D7;">
   <div class="container-fluid">
-    <a class="navbar-brand">G-E-O-2</a>
+    <a class="navbar-brand">G-E-O-3</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('index')}}">Home</a>
+          <a class="nav-link" href="{{url_for('coordenacao')}}">Voltar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
         </li>
       </ul>
       <form class="d-flex">
@@ -28,7 +31,9 @@
 </nav>
 <body>
   <form style="padding: 10px;">
-    <h3 style="padding: 20px;">Área restrita aos coordenadores.</h2>
+    <h3 style="padding: 20px;"> {% if error %}
+      <p class=error style="color:red;"><strong>Erro:</strong> {{ error }}</p>
+      {% endif %}</h2>
     </form>
     <div class="table-responsive">
     <table style="margin: 50px;max-width: 900px;" class="table">
@@ -38,6 +43,7 @@
             <th scope="col" style="max-width: 300px;">Nome completo do aluno</th>
             <th scope="col" style="max-width: 70px;">Classe</th>
             <th scope="col" style="max-width: 100px;">Matéria</th>
+            <th scope="col" style="max-width: 100px;">Bimestre</th>
             <th scope="col" style="max-width: 70px;">Nota</th>
             <th scope="col" style="max-width: 70px;">Aulas</th>
             <th scope="col" style="max-width: 70px;">Faltas</th>
@@ -52,6 +58,7 @@
               <td style="max-width: 300px;">{{ aluno.nome }}</td>
               <td style="max-width: 70px;">{{ aluno.classe }}</td>
               <td style="max-width: 100px;">{{ aluno.materia }}</td>
+              <td style="max-width: 100px;">{{ aluno.bimestre }}</td>
               <td style="max-width: 70px;">{{ aluno.nota }}</td>
               <td style="max-width: 70px;">{{ aluno.qtd_aulas }}</td>
               <td style="max-width: 70px;">{{ aluno.qtd_faltas }}</td>

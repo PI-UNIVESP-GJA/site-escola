@@ -123,24 +123,23 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1ºBim','2ºBim','3ºBim','4ºBim']datasets:[{label:"
+    nomes=[]
+    notas=[]
+    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1 Bim','2 Bim','3 Bim','4 Bim'],datasets:[{fill:false,label:'"
+    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
+    for aluno in alunos:
+        nomes.append(aluno.nome)
+        notas.append(aluno.nota)
+    url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
     i=1
-    tamanho = Alunos.query.filter_by(professor_id=professor_id).count()
-    currentA = Alunos.query.filter_by(professor_id=professor_id,id=i).first()
-    nomeAtual = currentA.nome
-    url_grafico = url_grafico + "'" + nomeAtual + "',data:["
-    url_grafico = url_grafico + currentA.nota + ','
-    i=i+1
-    while i < tamanho:
-        currentA = Alunos.query.filter_by(professor_id=professor_id,id=i).first()
-        if(currentA.nome == nomeAtual):
-            url_grafico = url_grafico + currentA.nota + ','
-            i = i+1
+    while i<(len(nomes)):
+        if(nomes[i]==nomes[i-1]):
+            url_grafico = url_grafico + notas[i] + ","
+            i=i+1
         else:
             url_grafico = url_grafico.rstrip(url_grafico[-1])
-            nomeAtual = currentA.nome    
-            url_grafico = url_grafico + "]fill:false,},{label:'" + nomeAtual + "',data:[" + currentA.nota + ','
-            i = i+1
+            url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
+            i=i+1
     url_grafico = url_grafico.rstrip(url_grafico[-1])
     url_grafico = url_grafico + "],},],},}"
     return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)

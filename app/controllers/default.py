@@ -123,6 +123,7 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
+    error = None
     nomes=[]
     notas=[]
     url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1 Bim','2 Bim','3 Bim','4 Bim'],datasets:[{fill:false,label:'"
@@ -130,19 +131,22 @@ def grafico(professor_id):
     for aluno in alunos:
         nomes.append(aluno.nome)
         notas.append(aluno.nota)
-    url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
-    i=1
-    while i<(len(nomes)):
-        if(nomes[i]==nomes[i-1]):
-            url_grafico = url_grafico + notas[i] + ","
-            i=i+1
-        else:
-            url_grafico = url_grafico.rstrip(url_grafico[-1])
-            url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
-            i=i+1
-    url_grafico = url_grafico.rstrip(url_grafico[-1])
-    url_grafico = url_grafico + "],},],},}"
-    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)
+    if len(nomes) == 0:
+        error = "Não há alunos cadastrados para esse professor"
+    else:    
+        url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
+        i=1
+        while i<(len(nomes)):
+            if(nomes[i]==nomes[i-1]):
+                url_grafico = url_grafico + notas[i] + ","
+                i=i+1
+            else:
+                url_grafico = url_grafico.rstrip(url_grafico[-1])
+                url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
+                i=i+1
+        url_grafico = url_grafico.rstrip(url_grafico[-1])
+        url_grafico = url_grafico + "],},],},}"
+    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico, error=error)
 
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])

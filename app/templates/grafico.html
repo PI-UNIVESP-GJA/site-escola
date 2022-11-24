@@ -31,7 +31,9 @@
 </nav>
 <body>
   <form style="padding: 10px;">
-    <h3 style="padding: 20px;">Área restrita aos coordenadores.</h2>
+    <h3 style="padding: 20px;"> {% if error %}
+      <p class=error style="color:red;"><strong>Erro:</strong> {{ error }}</p>
+      {% endif %}</h2>
     </form>
     <div class="table-responsive">
     <table style="margin: 50px;max-width: 900px;" class="table">

@@ -64,7 +64,7 @@ def login3aluno():
 @app.route('/sistema/<info>')
 @app.route('/sistema/', defaults={'info':None}, methods=["GET", "POST"])
 def sistema(info): 
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True or current_user.tipo != 1:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -74,7 +74,7 @@ def sistema(info):
 @app.route('/sistema_aluno/<info>')
 @app.route('/sistema_aluno/', defaults={'info':None}, methods=["GET", "POST"])
 def sistema_aluno(info): 
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True or current_user.tipo != 3:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -84,7 +84,7 @@ def sistema_aluno(info):
 @app.route('/consulta/<info>')
 @app.route('/consulta/', defaults={'info':None}, methods=["GET", "POST"])
 def consulta(info):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 1:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else: 
@@ -104,7 +104,7 @@ def consulta(info):
 @app.route('/coordenacao/<info>')
 @app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
 def coordenacao(info):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 2:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -113,7 +113,7 @@ def coordenacao(info):
 
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
 def delete(aluno_id):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 1:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -124,7 +124,7 @@ def delete(aluno_id):
 
 @app.route('/delete2/<int:professor_id>', methods=["GET", "POST"])
 def delete2(professor_id):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 2:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -135,7 +135,7 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 2:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -167,7 +167,7 @@ def grafico(professor_id):
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])
 def update(aluno_id, info):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 1:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:
@@ -217,7 +217,7 @@ def cadastro(tipo):
 @app.route('/cadastro_aluno/<info>')
 @app.route('/cadastro_aluno/', defaults={'info':None}, methods=["GET", "POST"])
 def cadastro_aluno(info):
-    if current_user.is_anonymous == True:
+    if current_user.is_anonymous == True  or current_user.tipo != 1:
         error = "Usuário não autenticado"
         return render_template('index.html', error=error)
     else:

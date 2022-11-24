@@ -123,7 +123,7 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.numero))
+    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
     url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:["
     for aluno in alunos:
         url_grafico = url_grafico + "'" + aluno.nome + "',"

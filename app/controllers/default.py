@@ -123,20 +123,26 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
-    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:["
-    for aluno in alunos:
-        url_grafico = url_grafico + "'" + aluno.nome + "',"
-    url_grafico = url_grafico.rstrip(url_grafico[-1])    
-    url_grafico = url_grafico + "],datasets:[{label:'Notas',data:["
-    for aluno in alunos:
-        url_grafico = url_grafico + aluno.nota + ","
-    url_grafico = url_grafico.rstrip(url_grafico[-1])    
-    url_grafico = url_grafico + "],fill:false,borderColor:'green'},{label:'Faltas',data:["
-    for aluno in alunos:
-        url_grafico = url_grafico + aluno.qtd_faltas + ","
+    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1ºBim','2ºBim','3ºBim','4ºBim']datasets:[{label:"
+    i=1
+    tamanho = Alunos.query.filter_by(professor_id=professor_id).count()
+    currentA = Alunos.query.filter_by(professor_id=professor_id,id=i).first()
+    nomeAtual = currentA.nome
+    url_grafico = url_grafico + "'" + nomeAtual + "',data:["
+    url_grafico = url_grafico + currentA.nota + ','
+    i=i+1
+    while i < tamanho:
+        currentA = Alunos.query.filter_by(professor_id=professor_id,id=i).first()
+        if(currentA.nome == nomeAtual):
+            url_grafico = url_grafico + currentA.nota + ','
+            i = i+1
+        else:
+            url_grafico = url_grafico.rstrip(url_grafico[-1])
+            nomeAtual = currentA.nome    
+            url_grafico = url_grafico + "]fill:false,},{label:'" + nomeAtual + "',data:[" + currentA.nota + ','
+            i = i+1
     url_grafico = url_grafico.rstrip(url_grafico[-1])
-    url_grafico = url_grafico + "],fill:false,borderColor:'blue'}]}}"
+    url_grafico = url_grafico + "],},],},}"
     return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico)
 
 @app.route('/update/<info>')

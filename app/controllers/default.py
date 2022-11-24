@@ -65,7 +65,8 @@ def login3aluno():
 @app.route('/sistema/', defaults={'info':None}, methods=["GET", "POST"])
 def sistema(info): 
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else:
         alunos = Alunos.query.filter_by(professor_id=current_user.id).order_by(asc(Alunos.numero))
         return render_template('sistema.html', alunos = alunos)
@@ -74,7 +75,8 @@ def sistema(info):
 @app.route('/sistema_aluno/', defaults={'info':None}, methods=["GET", "POST"])
 def sistema_aluno(info): 
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else:
         alunos = Alunos.query.filter_by(nome=current_user.nome).order_by(asc(Alunos.bimestre))
         return render_template('sistema_aluno.html', alunos = alunos)
@@ -83,7 +85,8 @@ def sistema_aluno(info):
 @app.route('/consulta/', defaults={'info':None}, methods=["GET", "POST"])
 def consulta(info):
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else: 
         form = FormAtualizaAluno()
         if form.validate_on_submit():
@@ -101,13 +104,18 @@ def consulta(info):
 @app.route('/coordenacao/<info>')
 @app.route('/coordenacao/', defaults={'info':None}, methods=["GET", "POST"])
 def coordenacao(info):
-    professores = User.query.filter_by(tipo=1).order_by(asc(User.id))
-    return render_template('coordenacao.html', professores = professores)
+    if current_user.is_anonymous == True:
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
+    else:
+        professores = User.query.filter_by(tipo=1).order_by(asc(User.id))
+        return render_template('coordenacao.html', professores = professores)
 
 @app.route('/delete/<int:aluno_id>', methods=["GET", "POST"])
 def delete(aluno_id):
     if current_user.is_anonymous == True:
-       return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else:
         aluno_d = Alunos.query.filter_by(id=aluno_id).first()
         db.session.delete(aluno_d)
@@ -116,6 +124,10 @@ def delete(aluno_id):
 
 @app.route('/delete2/<int:professor_id>', methods=["GET", "POST"])
 def delete2(professor_id):
+    if current_user.is_anonymous == True:
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
+    else:
         professor_d = User.query.filter_by(id=professor_id).first()
         db.session.delete(professor_d)
         db.session.commit()
@@ -123,36 +135,41 @@ def delete2(professor_id):
 
 @app.route('/grafico/<int:professor_id>', methods=["GET", "POST"])
 def grafico(professor_id):
-    error = None
-    nomes=[]
-    notas=[]
-    url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1 Bim','2 Bim','3 Bim','4 Bim'],datasets:[{fill:false,label:'"
-    alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
-    for aluno in alunos:
-        nomes.append(aluno.nome)
-        notas.append(aluno.nota)
-    if len(nomes) == 0:
-        error = "Não há alunos cadastrados para esse professor"
-    else:    
-        url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
-        i=1
-        while i<(len(nomes)):
-            if(nomes[i]==nomes[i-1]):
-                url_grafico = url_grafico + notas[i] + ","
-                i=i+1
-            else:
-                url_grafico = url_grafico.rstrip(url_grafico[-1])
-                url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
-                i=i+1
-        url_grafico = url_grafico.rstrip(url_grafico[-1])
-        url_grafico = url_grafico + "],},],},}"
-    return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico, error=error)
+    if current_user.is_anonymous == True:
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
+    else:
+        error = None
+        nomes=[]
+        notas=[]
+        url_grafico = "https://quickchart.io/chart?c={type:'line',data:{labels:['1 Bim','2 Bim','3 Bim','4 Bim'],datasets:[{fill:false,label:'"
+        alunos = Alunos.query.filter_by(professor_id=professor_id).order_by(asc(Alunos.nome))
+        for aluno in alunos:
+            nomes.append(aluno.nome)
+            notas.append(aluno.nota)
+        if len(nomes) == 0:
+            error = "Não há alunos cadastrados para esse professor"
+        else:    
+            url_grafico = url_grafico + nomes[0] + "',data:[" + notas[0] + ","
+            i=1
+            while i<(len(nomes)):
+                if(nomes[i]==nomes[i-1]):
+                    url_grafico = url_grafico + notas[i] + ","
+                    i=i+1
+                else:
+                    url_grafico = url_grafico.rstrip(url_grafico[-1])
+                    url_grafico = url_grafico + "],},{fill:false,label:'" + nomes[i] + "',data:[" + notas[i] + ","
+                    i=i+1
+            url_grafico = url_grafico.rstrip(url_grafico[-1])
+            url_grafico = url_grafico + "],},],},}"
+        return render_template('grafico.html', alunos = alunos, url_grafico=url_grafico, error=error)
 
 @app.route('/update/<info>')
 @app.route('/update/<int:aluno_id>', defaults={'info':None}, methods=["GET", "POST"])
 def update(aluno_id, info):
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else:
         form = FormCadastroAluno()
         aluno_e = Alunos.query.filter_by(id=aluno_id).first()
@@ -201,7 +218,8 @@ def cadastro(tipo):
 @app.route('/cadastro_aluno/', defaults={'info':None}, methods=["GET", "POST"])
 def cadastro_aluno(info):
     if current_user.is_anonymous == True:
-        return render_template('index.html')
+        error = "Usuário não autenticado"
+        return render_template('index.html', error=error)
     else:
         form = FormCadastroAluno()
         if form.validate_on_submit():

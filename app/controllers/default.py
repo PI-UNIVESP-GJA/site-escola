@@ -4,6 +4,22 @@ from app import app, db, login_manager
 from app.models.tables import User, Alunos
 from app.models.forms import FormLogin, FormCadastro, FormCadastroAluno, FormAtualizaAluno, FormConsultaAluno
 from sqlalchemy import asc, and_
+import json
+
+
+@app.route('/api/<info>')
+@app.route('/api/', defaults={'info':None}, methods=["GET"])
+def api(info):
+    aluno_ = Alunos.query.filter_by(nome=info)
+    if aluno_.first() == None or info == None:
+        return 'Erro: Nome inválido'
+    else:
+        resposta = '{ "Nome": "' + info + '",'
+        for aluno in aluno_:
+            resposta = resposta + '"Nota' + str(aluno.bimestre) + '": "' + aluno.nota + '",'
+        resposta = resposta.rstrip(resposta[-1])
+        resposta = resposta + "}"        
+        return json.loads(resposta)
 
 @login_manager.user_loader
 def load_user(id):

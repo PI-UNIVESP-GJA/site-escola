@@ -7,7 +7,7 @@ from sqlalchemy import asc, and_
 import json
 
 
-@app.route('/api/<info>')
+@app.route('/api/nome=<info>')
 @app.route('/api/', defaults={'info':None}, methods=["GET"])
 def api(info):
     aluno_ = Alunos.query.filter_by(nome=info)

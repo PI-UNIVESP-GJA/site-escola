@@ -1,8 +1,5 @@
 from flask import render_template, redirect, url_for
-from flask_login import login_user, logout_user, current_user
 from app import app, db, login_manager
-from app.models.tables import User
-from app.models.forms import FormLogin
 from sqlalchemy import asc, and_
 import json
 

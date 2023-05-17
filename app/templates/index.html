@@ -11,22 +11,24 @@
 
 <body class="body">
   <div class="container-fluid" style="text-align: start;">
-    <form>
-      <h1 style="color:red;">{% if error %}
-        <p class=error> {{ error }}
-        {% endif %}</h1>
-      <h2>Gerenciador Educacional On-Line 3.0</h2> 
-      
-      <h3>Sistema para gerenciamento de notas e frequência.</h3>
-      
-      <h4>Este site foi desenvolvido com o objetivo de auxiliar os professores, administradores e alunos da escola a armazenar,
-       controlar e visualizar informações a cerca das salas de aulas, alunos, frequências e notas.
-      <p>Essa é a terceira versão do projeto, aumentando o escopo das versões anteriores, incluindo alunos como público alvo.</p>
-      <p>As ferramentas e recursos aqui desponibilizadas foram escolhidas a partir de pesquisa de campo com coordenadores e secretários 
-      de uma escola municipal do Guarujá-SP.</p>
-      <p>Foi utilizada linguagem Python, framework Flask, framework Bootstrap em Javascript e CSS, banco de dados com SQLite, 
-        API QuickChart para construir os gráficos, hospedado na nuvem e publicado via Heroku, controle de versão registrado via Github.</p></h4>
-    </form>
+    <table class="table" id="demo">
+      <thread>
+      <tr>
+        {% for col in header %}
+        <th scope="col">{{ col }}</th>
+        {% endfor %}
+      </tr>
+     </thread>
+      <tbody>
+      {% for row in rows %}
+      <tr>
+        {% for col in row %}
+        <td>{{ col }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
 </body>

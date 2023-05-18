@@ -5,20 +5,21 @@
   <title>Gerenciador Educacional On-Line 2.0</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="static/css/datatables.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 
 <body class="body">
   <div class="container-fluid" style="text-align: start;">
-    <table class="table" id="demo">
-      <thread>
+    <table id="myTable" class="datatable table table-striped table-hover table-bordered table-responsive-sm">
+      <thead>
       <tr>
         {% for col in header %}
         <th scope="col">{{ col }}</th>
         {% endfor %}
       </tr>
-     </thread>
+     </thead>
       <tbody>
       {% for row in rows %}
       <tr>
@@ -31,6 +32,20 @@
     </table>
   </div>
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='js/bootstrap.min.js')}}" media="screen">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
+  <script src="static/js/datatables.js"></script>
+  <script type="text/javascript">
+  $(document).ready( function () {
+    $('#myTable').DataTable({
+      "pagingType": "simple",
+      "scrollY": "60vh",
+      "scrollX": true,
+      "scrollCollapse": true, 
+    } );
+    $('.dataTables_length').addClass('bs-select');} );
+</script>
 </body>
 
 </html>

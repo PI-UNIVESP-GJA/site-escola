@@ -2,8 +2,11 @@ from flask import Flask, jsonify,render_template, redirect, url_for
 from app import app, db, login_manager
 from sqlalchemy import asc, and_
 import csv
-#import pandas as pd
-#import numpy as np
+import pandas as pd
+df = pd.read_csv('BCG.csv', encoding = "UTF-8", sep =';')
+df = pd.read_csv('BCG.csv', encoding = "UTF-8", sep =';' , header=0)
+df.head() 
+import numpy as np
 
 
 @login_manager.user_loader
